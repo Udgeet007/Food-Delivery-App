@@ -1,14 +1,20 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
 import { ProductType } from "@/types/types";
+import { useCartStore } from "@/utils/store";
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const Price = ({ product }: { product: ProductType }) => {
   const [total, setTotal] = useState(product.price);
   const [quantity, setQuantity] = useState(1);
   const [selected, setSelected] = useState(0);
 
-  const {addToCart} = useCartStore()
+  const { addToCart } = useCartStore();
+
+  useEffect(()=>{
+    useCartStore.persist.rehydrate()
+  },[])
 
   useEffect(() => {
     if (product.options?.length) {
